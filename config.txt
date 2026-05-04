@@ -1,0 +1,7 @@
+http://localhost:9001
+Логин: admin, пароль: admin123456
+
+nastya@nastsh:/opt/Project/kursovaya/websocket-server/src$ npm run dev
+nastya@nastsh:/opt/Project/kursovaya/frontend$ npm start
+nastya@nastsh:/opt/Project/kursovaya/agent$ go run main.go
+nastya@nastsh:/opt/Project/kursovaya$ docker compose up -d
