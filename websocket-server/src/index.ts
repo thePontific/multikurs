@@ -6,20 +6,21 @@ import axios from 'axios';
 
 const PORT = 8001;
 const HOST = 'localhost';
-const AGENT_URL = 'http://localhost:8080';
+const TRANSPORT_URL = 'http://localhost:8000';  // Транспортный уровень 
 
 const app = express();
 const server = http.createServer(app);
 const wss = new WebSocketServer({ server });
 
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
 
 const connections = new Map<string, WebSocket>();
-let nextRequestId = 1;
 
+// Метод /receive - сюда транспортный уровень отправляет собранные сообщения
 app.post('/receive', (req, res) => {
   const message = req.body;
+  console.log(`[HTTP /receive] Получено сообщение для ${message.sender}`);
   const clientWs = connections.get(message.sender);
   if (clientWs && clientWs.readyState === WebSocket.OPEN) {
     clientWs.send(JSON.stringify({ type: 'response', data: message }));
@@ -48,36 +49,28 @@ wss.on('connection', (ws: WebSocket, req: http.IncomingMessage) => {
       console.log(`[WebSocket] Запрос от ${username}:`, request);
       
       if (request.type === 'send_request') {
-        ws.send(JSON.stringify({ type: 'accepted', message: 'Запрос принят...' }));
+        ws.send(JSON.stringify({ type: 'accepted', message: 'Запрос принят, ожидайте ответа...' }));
         
-        const agentRequest = {
-          request_id: nextRequestId++,
-          sample_id: request.sample_id,
+        // Отправляем запрос в ТРАНСПОРТНЫЙ уровень (НЕ напрямую агенту)
+        const transportRequest = {
+          sender: request.sender,
+          timestamp: request.timestamp,
           magnification: request.magnification,
+          sample_id: String(request.sample_id),  // ← ПРЕОБРАЗУЕМ В СТРОКУ
         };
         
-        try {
-          console.log(`[Agent] Отправка: sample=${request.sample_id}, mag=${request.magnification}`);
-          const response = await axios.post(`${AGENT_URL}/send`, agentRequest);
-          
-          if (response.data.status === 'accepted' && response.data.images) {
-            const wsResponse = {
-              sender: request.sender,
-              timestamp: new Date().toISOString(),
-              error_flag: false,
-              magnification: request.magnification,
-              sample_id: request.sample_id,
-              payload: { images: response.data.images },
-            };
-            ws.send(JSON.stringify({ type: 'response', data: wsResponse }));
-            console.log(`[Agent] Отправлено ${response.data.images.length} изображений`);
-          } else {
-            ws.send(JSON.stringify({ type: 'error', message: response.data.error || 'Ошибка' }));
-          }
-        } catch (error: any) {
-          console.error(`[Agent] Ошибка:`, error.message);
-          ws.send(JSON.stringify({ type: 'error', message: 'Агент не отвечает' }));
-        }
+// Найти эту секцию и заменить
+      try {
+        console.log(`[Transport] Отправка в транспортный уровень:`, JSON.stringify(transportRequest, null, 2));
+        const transportResponse = await axios.post(`${TRANSPORT_URL}/input`, transportRequest, {
+          headers: { 'Content-Type': 'application/json' }
+        });
+        console.log(`[Transport] Ответ:`, transportResponse.data);
+      } catch (error: any) {
+        console.error(`[Transport] Ошибка:`, error.response?.data || error.message);
+        console.error(`[Transport] Статус:`, error.response?.status);
+        ws.send(JSON.stringify({ type: 'error', message: 'Транспортный уровень недоступен' }));
+      }
       }
     } catch (error) {
       console.error('[WebSocket] Ошибка:', error);
