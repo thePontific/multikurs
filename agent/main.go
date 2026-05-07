@@ -45,7 +45,7 @@ type Segment struct {
 
 const (
 	TRANSPORT_URL = "http://localhost:8000"
-	SEGMENT_SIZE  = 1000 // байт
+	SEGMENT_SIZE  = 50000 // байт
 )
 
 func initMinIO() error {
