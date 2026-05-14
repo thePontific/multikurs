@@ -161,7 +161,7 @@ func sendSegmentsToTransport(requestID string, imagesData []byte, magnification 
 		}
 
 		// Отправляем на транспортный уровень
-		resp, err := http.Post(TRANSPORT_URL+"/transfer", "application/json", bytes.NewBuffer(segmentJSON))
+		resp, err := http.Post(TRANSPORT_URL+"/send", "application/json", bytes.NewBuffer(segmentJSON))
 		if err != nil {
 			log.Printf("[Error] Ошибка отправки сегмента %d: %v", i+1, err)
 			continue
@@ -247,7 +247,7 @@ func main() {
 		log.Printf("MinIO не доступен: %v", err)
 	}
 
-	http.HandleFunc("/send", sendHandler)
+	http.HandleFunc("/transfer", sendHandler)
 	http.HandleFunc("/health", healthHandler)
 
 	port := 8080

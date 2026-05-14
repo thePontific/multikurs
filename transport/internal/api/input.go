@@ -52,7 +52,7 @@ func HandleInput(w http.ResponseWriter, r *http.Request) {
 }
 
 func callAgentTransfer(req map[string]interface{}) error {
-	agentURL := "http://localhost:8080/send"
+	agentURL := "http://localhost:8080/transfer"
 
 	jsonData, _ := json.Marshal(req)
 	resp, err := http.Post(agentURL, "application/json", bytes.NewBuffer(jsonData))

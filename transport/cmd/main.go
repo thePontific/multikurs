@@ -71,8 +71,8 @@ func main() {
 
 	// 3. Настройка HTTP сервера
 	r := mux.NewRouter()
-	r.HandleFunc("/input", api.HandleInput).Methods(http.MethodPost, http.MethodOptions)       // Input(params)
-	r.HandleFunc("/transfer", api.HandleTransfer).Methods(http.MethodPost, http.MethodOptions) // Transfer(params)
+	r.HandleFunc("/input", api.HandleInput).Methods(http.MethodPost, http.MethodOptions)   // Input(params)
+	r.HandleFunc("/send", api.HandleTransfer).Methods(http.MethodPost, http.MethodOptions) // Transfer(params)
 
 	r.NotFoundHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Not Found", http.StatusNotFound)
