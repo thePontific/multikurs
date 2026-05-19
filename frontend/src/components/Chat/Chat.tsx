@@ -28,7 +28,7 @@ export const Chat: React.FC = () => {
   useEffect(() => {
     // Подключаемся только если есть username и WebSocket не подключен
     if (username && !ws) {
-      const socket = new WebSocket(`ws://localhost:8001?username=${encodeURIComponent(username)}`);
+      const socket = new WebSocket(`ws://${window.location.hostname}:8001?username=${username}`);
       
       socket.onopen = () => {
         console.log('WebSocket подключен');

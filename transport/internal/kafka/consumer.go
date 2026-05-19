@@ -15,6 +15,9 @@ func StartConsumer(addSegmentFunc func(models.Segment)) error {
 	config.Consumer.Return.Errors = true
 	config.Consumer.Offsets.Initial = sarama.OffsetNewest
 
+	// ВАЖНО: указать версию Kafka (добавить эти строки)
+	config.Version = sarama.V2_0_0_0 // или V2_8_0_0, или V3_0_0_0
+
 	consumer, err := sarama.NewConsumer([]string{KafkaAddr}, config)
 	if err != nil {
 		return fmt.Errorf("error creating consumer: %w", err)
@@ -37,7 +40,6 @@ func StartConsumer(addSegmentFunc func(models.Segment)) error {
 				fmt.Printf("Ошибка парсинга сегмента: %v\n", err)
 				continue
 			}
-			// добавляем сегмент в хранилище для последующей сборки
 			addSegmentFunc(segment)
 
 		case err := <-partitionConsumer.Errors():

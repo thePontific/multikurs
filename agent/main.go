@@ -44,12 +44,12 @@ type Segment struct {
 }
 
 const (
-	TRANSPORT_URL = "http://localhost:8000"
+	TRANSPORT_URL = "http://transport:8000"
 	SEGMENT_SIZE  = 50000 // байт
 )
 
 func initMinIO() error {
-	endpoint := "localhost:9000"
+	endpoint := "minio:9000"
 	accessKeyID := "admin"
 	secretAccessKey := "admin123456"
 	useSSL := false

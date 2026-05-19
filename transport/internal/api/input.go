@@ -52,8 +52,8 @@ func HandleInput(w http.ResponseWriter, r *http.Request) {
 }
 
 func callAgentTransfer(req map[string]interface{}) error {
-	agentURL := "http://localhost:8080/transfer"
-
+	//agentURL := "http://localhost:8080/transfer"
+	agentURL := "http://agent:8080/transfer" // имя сервиса и правильный путь!
 	jsonData, _ := json.Marshal(req)
 	resp, err := http.Post(agentURL, "application/json", bytes.NewBuffer(jsonData))
 	if err != nil {

@@ -5,9 +5,9 @@ import cors from 'cors';
 import axios from 'axios';
 
 const PORT = 8001;
-const HOST = 'localhost';
-const TRANSPORT_URL = 'http://localhost:8000';  // Транспортный уровень 
-
+const HOST = '0.0.0.0';
+//const TRANSPORT_URL = 'http://localhost:8000';  // Транспортный уровень 
+const TRANSPORT_URL = 'http://transport:8000';
 const app = express();
 const server = http.createServer(app);
 const wss = new WebSocketServer({ server });

@@ -2,7 +2,7 @@ import axios from 'axios';
 import { TransportInputRequest, TransportReceiveMessage } from '../types';
 
 // TODO: позже замените на реальный IP транспортного уровня
-const TRANSPORT_URL = 'http://localhost:3030'; // транспортный уровень (порт из Swagger)
+const TRANSPORT_URL = 'http://localhost:8000'; // транспортный уровень (порт из Swagger)
 
 // Отправка запроса на транспортный уровень (POST /input)
 export const sendToTransport = async (request: TransportInputRequest): Promise<{ request_id: number }> => {

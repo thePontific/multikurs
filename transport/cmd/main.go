@@ -5,6 +5,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net"
 	"net/http"
 	"os"
 	"os/signal"
@@ -19,14 +20,40 @@ import (
 	"github.com/gorilla/mux"
 )
 
-const (
-	// Было:
-	// AppLayerReceiveURL = "http://192.168.123.140:8080/api/v1/receive"
-	// Стало (ваш IP + порт вашего WebSocket-сервера):
-	AppLayerReceiveURL = "http://localhost:8001/receive"
-)
+// Глобальная переменная (не константа)
+var AppLayerReceiveURL string
 
-// sendToAppLayer отправляет собранное сообщение на прикладной уровень (Receive(message))
+// Функция для получения IP компьютера в локальной сети
+func getLocalIP() string {
+	addrs, err := net.InterfaceAddrs()
+	if err != nil {
+		return "localhost"
+	}
+	for _, addr := range addrs {
+		if ipnet, ok := addr.(*net.IPNet); ok && !ipnet.IP.IsLoopback() && ipnet.IP.To4() != nil {
+			// Исключаем Docker-сети
+			ipStr := ipnet.IP.String()
+			if ipStr[:8] == "172.17." || ipStr[:8] == "172.18." ||
+				ipStr[:8] == "172.19." || ipStr[:8] == "172.20." ||
+				ipStr[:8] == "172.21." || ipStr[:8] == "172.22." ||
+				ipStr[:8] == "172.23." || ipStr[:8] == "172.24." {
+				continue
+			}
+			return ipStr
+		}
+	}
+	return "localhost"
+}
+
+// Инициализация при запуске
+func init() {
+	//localIP := getLocalIP()
+	//AppLayerReceiveURL = "http://" + localIP + ":8001/receive"
+	AppLayerReceiveURL = "http://websocket:8001/receive" // имя сервиса WebSocket
+	fmt.Printf("🔧 AppLayerReceiveURL: %s\n", AppLayerReceiveURL)
+}
+
+// sendToAppLayer отправляет собранное сообщение на прикладной уровень
 func sendToAppLayer(req models.ReceiveRequest) {
 	jsonData, err := json.Marshal(req)
 	if err != nil {
@@ -34,8 +61,8 @@ func sendToAppLayer(req models.ReceiveRequest) {
 		return
 	}
 
-	fmt.Printf("📤 Отправка на %s\n", AppLayerReceiveURL) // ← добавить
-	fmt.Printf("📤 Данные: %s\n", string(jsonData))       // ← добавить
+	fmt.Printf("📤 Отправка на %s\n", AppLayerReceiveURL)
+	fmt.Printf("📤 Данные: %s\n", string(jsonData))
 
 	resp, err := http.Post(AppLayerReceiveURL, "application/json", bytes.NewBuffer(jsonData))
 	if err != nil {

@@ -10,7 +10,8 @@ import (
 )
 
 const (
-	KafkaAddr  = "localhost:9092"
+	//KafkaAddr  = "localhost:9092"
+	KafkaAddr  = "kafka:9092" // имя сервиса в Docker
 	KafkaTopic = "image_segments"
 )
 
@@ -18,6 +19,7 @@ const (
 func SendToKafka(segment models.Segment) error {
 	config := sarama.NewConfig()
 	config.Producer.Return.Successes = true
+	config.Version = sarama.V2_0_0_0
 
 	producer, err := sarama.NewSyncProducer([]string{KafkaAddr}, config)
 	if err != nil {

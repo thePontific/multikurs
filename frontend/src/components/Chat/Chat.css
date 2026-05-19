@@ -10,9 +10,11 @@
 /* Хедер */
 .chat-header {
   position: relative;
-  padding: 30px 20px 20px 20px;
+  padding: 40px 15px 10px 15px;
   text-align: center;
   flex-shrink: 0;
+  background-color: #000000;
+  z-index: 5;
 }
 
 .chat-title-wrapper {
@@ -23,7 +25,7 @@
 
 .chat-title {
   font-family: 'Vollkorn SC', serif;
-  font-size: 32px;
+  font-size: 20px;
   font-weight: 400;
   color: white;
   letter-spacing: 0.1em;
@@ -32,26 +34,27 @@
 }
 
 .green-line {
-  width: 100%;
+  width: 60%;
   height: 2px;
   background: linear-gradient(90deg, #2e7d32, #4caf50, #2e7d32);
-  margin-top: 8px;
+  margin: 8px auto 0 auto;
 }
 
 /* Кнопка выхода */
 .logout-btn {
   position: absolute !important;
-  top: 30px;
-  left: 20px;
-  background-color: #000000 !important;
+  top: 12px;
+  left: 10px;
   color: #4caf50 !important;
   border-color: #4caf50 !important;
   border-radius: 30px !important;
-  border: 2px solid #4caf50 !important;
-  box-shadow: 0 0 12px rgba(76, 175, 80, 0.6) !important;
+  box-shadow: 0 0 10px rgba(76, 175, 80, 0.5) !important;
   text-transform: none !important;
-  z-index: 10;
-  padding: 6px 16px !important;
+  z-index: 20;
+  background-color: #000000 !important;
+  padding: 4px 12px !important;
+  font-size: 12px !important;
+  min-width: auto !important;
 }
 
 .logout-btn:hover {
@@ -64,20 +67,19 @@
 .messages-area {
   flex: 1;
   overflow-y: auto;
-  padding: 20px;
+  padding: 5px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
   align-items: center;
 }
 
-/* Контейнер для сообщений с фиксированной шириной */
 .messages-container {
   width: 100%;
-  max-width: 800px;
+  max-width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
 }
 
 /* Пустой чат */
@@ -92,20 +94,20 @@
 }
 
 .empty-chat span {
-  font-size: 64px;
+  font-size: 48px;
 }
 
 .empty-chat p {
-  font-size: 16px;
+  font-size: 14px;
   color: #666;
 }
 
 /* Сообщения */
 .message-wrapper {
   display: flex;
-  gap: 12px;
-  max-width: 70%;
-  min-width: 200px;
+  gap: 8px;
+  max-width: 90%;
+  min-width: 140px;
 }
 
 .own-message {
@@ -118,26 +120,26 @@
 }
 
 .avatar {
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   flex-shrink: 0;
 }
 
 .avatar-placeholder {
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   background-color: #1a1a1a;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
+  font-size: 18px;
 }
 
 .message-bubble {
   background-color: #1a1a1a;
-  border-radius: 16px;
-  padding: 10px 16px;
+  border-radius: 14px;
+  padding: 8px 12px;
   max-width: 100%;
 }
 
@@ -146,99 +148,81 @@
 }
 
 .message-sender {
-  font-size: 12px;
+  font-size: 10px;
   color: #4caf50;
-  margin-bottom: 4px;
+  margin-bottom: 3px;
 }
 
 .message-text {
   color: white;
-  font-size: 14px;
-  margin-bottom: 8px;
+  font-size: 12px;
+  margin-bottom: 5px;
   word-wrap: break-word;
 }
 
 .message-images {
   display: flex;
-  gap: 8px;
+  gap: 6px;
   flex-wrap: wrap;
-  margin-top: 8px;
+  margin-top: 5px;
 }
 
+/* ОДНО определение для картинок (удалил дубликаты) */
 .microscope-image {
-  max-width: 400px;
-  max-height: 300px;
+  max-width: 150px !important;
+  max-height: 120px !important;
   width: auto;
   height: auto;
   border-radius: 8px;
   border: 1px solid #2e7d32;
   cursor: pointer;
-  transition: transform 0.2s;
-}
-
-.microscope-image:hover {
-  transform: scale(1.02);
-}
-
-/* Для очень больших изображений - ограничиваем по ширине сообщения */
-.message-images {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-top: 8px;
-  justify-content: flex-start;
-}
-
-/* Если изображение одно - можно сделать его шире */
-.message-images:has(> img:only-child) .microscope-image {
-  max-width: 500px;
-  max-height: 400px;
+  object-fit: contain;
 }
 
 .error-icon {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   background-color: rgba(244, 67, 54, 0.1);
-  padding: 8px 12px;
+  padding: 6px 10px;
   border-radius: 8px;
   border-left: 3px solid #f44336;
 }
 
 .error-icon span:first-child {
-  font-size: 20px;
+  font-size: 16px;
 }
 
 .error-text {
   color: #f44336;
-  font-size: 13px;
+  font-size: 11px;
 }
 
 .message-time {
-  font-size: 10px;
+  font-size: 9px;
   color: #666;
   text-align: right;
-  margin-top: 4px;
+  margin-top: 3px;
 }
 
 .loading-indicator {
   align-self: center;
   color: #4caf50;
   background-color: #1a1a1a;
-  padding: 10px 20px;
+  padding: 8px 16px;
   border-radius: 20px;
-  font-size: 12px;
+  font-size: 11px;
 }
 
 /* Панель ввода */
 .input-panel {
   flex-shrink: 0;
-  padding: 20px 40px 30px 40px;
+  padding: 12px 15px 20px 15px;
   border-top: 1px solid #1a1a1a;
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  max-width: 600px;
+  gap: 10px;
+  max-width: 100%;
   margin: 0 auto;
   width: 100%;
   box-sizing: border-box;
@@ -251,30 +235,19 @@
 /* Кнопки увеличения */
 .magnification-buttons {
   display: flex;
-  gap: 12px;
+  gap: 8px;
   justify-content: center;
-  animation: fadeInUp 0.3s ease-out;
+  flex-wrap: wrap;
 }
 
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Общие стили для всех кнопок увеличения */
 .mag-btn {
   flex: 1;
-  padding: 10px;
+  min-width: 50px;
+  padding: 6px;
   background-color: #000000 !important;
   border-radius: 30px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 11px;
   font-weight: 500;
   transition: all 0.3s;
   text-align: center;
@@ -283,131 +256,44 @@
 }
 
 .mag-btn:hover {
-  transform: translateY(-2px);
+  transform: translateY(-1px);
 }
 
-/* Кнопка 10x — зеленая */
-.mag-btn[data-mag="10"] {
-  border-color: #4caf50;
-  color: white;
-  box-shadow: 0 0 12px rgba(76, 175, 80, 0.6);
-}
-
-.mag-btn[data-mag="10"]:hover {
-  background-color: #0a1a0a !important;
-  box-shadow: 0 0 20px rgba(76, 175, 80, 0.9);
-}
-
-.mag-btn[data-mag="10"].active {
-  background-color: #1b5e20 !important;
-  border-color: #4caf50;
-  color: white;
-  box-shadow: 0 0 25px rgba(76, 175, 80, 1);
-}
-
-/* Кнопка 40x — морская волна */
-.mag-btn[data-mag="40"] {
-  border-color: #26c6da;
-  color: white;
-  box-shadow: 0 0 12px rgba(38, 198, 218, 0.6);
-}
-
-.mag-btn[data-mag="40"]:hover {
-  background-color: #0a1a1c !important;
-  box-shadow: 0 0 20px rgba(38, 198, 218, 0.9);
-}
-
-.mag-btn[data-mag="40"].active {
-  background-color: #00838f !important;
-  border-color: #26c6da;
-  color: white;
-  box-shadow: 0 0 25px rgba(38, 198, 218, 1);
-}
-
-/* Кнопка 100x — голубая */
-.mag-btn[data-mag="100"] {
-  border-color: #42a5f5;
-  color: white;
-  box-shadow: 0 0 12px rgba(66, 165, 245, 0.6);
-}
-
-.mag-btn[data-mag="100"]:hover {
-  background-color: #0a1420 !important;
-  box-shadow: 0 0 20px rgba(66, 165, 245, 0.9);
-}
-
-.mag-btn[data-mag="100"].active {
-  background-color: #1565c0 !important;
-  border-color: #42a5f5;
-  color: white;
-  box-shadow: 0 0 25px rgba(66, 165, 245, 1);
-}
-
-/* Кнопка 400x — лазурная */
-.mag-btn[data-mag="400"] {
-  border-color: #1e88e5;
-  color: white;
-  box-shadow: 0 0 12px rgba(30, 136, 229, 0.6);
-}
-
-.mag-btn[data-mag="400"]:hover {
-  background-color: #0a1220 !important;
-  box-shadow: 0 0 20px rgba(30, 136, 229, 0.9);
-}
-
-.mag-btn[data-mag="400"].active {
-  background-color: #0d47a1 !important;
-  border-color: #1e88e5;
-  color: white;
-  box-shadow: 0 0 25px rgba(30, 136, 229, 1);
-}
-
-/* Кнопка 1000x — синяя */
-.mag-btn[data-mag="1000"] {
-  border-color: #1565c0;
-  color: white;
-  box-shadow: 0 0 12px rgba(21, 101, 192, 0.6);
-}
-
-.mag-btn[data-mag="1000"]:hover {
-  background-color: #0a1020 !important;
-  box-shadow: 0 0 20px rgba(21, 101, 192, 0.9);
-}
-
-.mag-btn[data-mag="1000"].active {
-  background-color: #0a3d6d !important;
-  border-color: #1565c0;
-  color: white;
-  box-shadow: 0 0 25px rgba(21, 101, 192, 1);
-}
+/* Цвета кнопок (кратко) */
+.mag-btn[data-mag="10"] { border-color: #4caf50; }
+.mag-btn[data-mag="10"].active { background-color: #1b5e20 !important; }
+.mag-btn[data-mag="40"] { border-color: #26c6da; }
+.mag-btn[data-mag="40"].active { background-color: #00838f !important; }
+.mag-btn[data-mag="100"] { border-color: #42a5f5; }
+.mag-btn[data-mag="100"].active { background-color: #1565c0 !important; }
+.mag-btn[data-mag="400"] { border-color: #1e88e5; }
+.mag-btn[data-mag="400"].active { background-color: #0d47a1 !important; }
+.mag-btn[data-mag="1000"] { border-color: #1565c0; }
+.mag-btn[data-mag="1000"].active { background-color: #0a3d6d !important; }
 
 /* Кнопка Отправить */
 .send-btn {
   background-color: #000000 !important;
   border-radius: 30px !important;
-  padding: 12px !important;
-  font-size: 16px !important;
+  padding: 10px !important;
+  font-size: 14px !important;
   text-transform: none !important;
-  box-shadow: 0 0 15px rgba(158, 158, 158, 0.7) !important;
-  border: 2px solid #9e9e9e !important;
+  box-shadow: 0 0 10px rgba(158, 158, 158, 0.5) !important;
+  border: 1px solid #9e9e9e !important;
   color: white !important;
 }
 
 .send-btn:hover:not(:disabled) {
   background-color: #1a1a1a !important;
-  box-shadow: 0 0 25px rgba(158, 158, 158, 1) !important;
-  transform: translateY(-2px);
-  border-color: #e0e0e0 !important;
+  box-shadow: 0 0 18px rgba(158, 158, 158, 0.8) !important;
 }
 
 .send-btn:disabled {
   background-color: #0a0a0a !important;
-  box-shadow: 0 0 5px rgba(158, 158, 158, 0.3) !important;
-  border-color: #555 !important;
-  color: #888 !important;
+  opacity: 0.5;
 }
 
-/* Стили для поля ввода — закругленные края */
+/* Стили для поля ввода */
 .input-row .MuiOutlinedInput-root {
   background-color: #1a1a1a;
   border-radius: 30px !important;
@@ -420,38 +306,77 @@
 
 .input-row .MuiOutlinedInput-root input {
   color: white;
+  font-size: 14px;
+  padding: 12px 14px;
 }
 
-.input-row .MuiOutlinedInput-root:hover fieldset {
-  border-color: #4caf50;
-}
-
-.input-row .MuiOutlinedInput-root.Mui-focused fieldset {
-  border-color: #4caf50;
-  box-shadow: 0 0 8px rgba(76, 175, 80, 0.5);
-}
-
-/* Стили для placeholder */
 .input-row .MuiOutlinedInput-root input::placeholder {
   color: #888;
   opacity: 1;
+  font-size: 12px;
 }
 
-/* Стили для поля ввода номера (если используется где-то еще) */
-.sample-number-input {
-  width: 100%;
-  padding: 12px 16px;
-  background-color: #1a1a1a;
-  border: 1px solid #2e7d32;
-  border-radius: 30px;
-  color: white;
-  font-size: 14px;
-  outline: none;
-  box-sizing: border-box;
-  text-align: center;
+/* Мобильная адаптация */
+@media (max-width: 768px) {
+  .chat-header {
+    padding: 65px 10px 8px 10px;
+  }
+  
+  .chat-title {
+    font-size: 16px;
+  }
+  
+  .logout-btn {
+    top: 68px;
+    left: 6px;
+    padding: 2px 8px !important;
+    font-size: 10px !important;
+  }
+  
+  .green-line {
+    width: 50%;
+  }
+  
+  .input-panel {
+    padding: 8px 12px 12px 12px;
+  }
+  
+  .mag-btn {
+    padding: 4px;
+    font-size: 9px;
+  }
+  
+  .send-btn {
+    padding: 6px !important;
+    font-size: 12px !important;
+  }
+  
+  .microscope-image {
+    max-width: 220px !important;
+    max-height: 200px !important;
+  }
+  
+  .message-text {
+    font-size: 11px;
+  }
+  
+  .message-sender {
+    font-size: 9px;
+  }
+  
+  .message-bubble {
+    padding: 6px 10px;
+  }
 }
 
-.sample-number-input:focus {
-  border-color: #4caf50;
-  box-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+/* Анимация */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
